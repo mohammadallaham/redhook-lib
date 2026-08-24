@@ -1,0 +1,50 @@
+[
+  {
+    "id": "footprints",
+    "number": 1,
+    "title": "The Footprint Trail",
+    "area": "Major area 1",
+    "url": "https://a0e8-173-46-98-200.ngrok-free.app/ar.html?stop=footprints",
+    "file": "/qr/point-01-footprints.png"
+  },
+  {
+    "id": "bus",
+    "number": 2,
+    "title": "The Flying Magic Bus",
+    "area": "Major area 2",
+    "url": "https://a0e8-173-46-98-200.ngrok-free.app/ar.html?stop=bus",
+    "file": "/qr/point-02-bus.png"
+  },
+  {
+    "id": "painting",
+    "number": 3,
+    "title": "The Growing Painting",
+    "area": "Major area 3",
+    "url": "https://a0e8-173-46-98-200.ngrok-free.app/ar.html?stop=painting",
+    "file": "/qr/point-03-painting.png"
+  },
+  {
+    "id": "colors",
+    "number": 4,
+    "title": "The Color Box",
+    "area": "Major area 4",
+    "url": "https://a0e8-173-46-98-200.ngrok-free.app/ar.html?stop=colors",
+    "file": "/qr/point-04-colors.png"
+  },
+  {
+    "id": "caterpillar",
+    "number": 5,
+    "title": "The Climbing Caterpillar",
+    "area": "Major area 5",
+    "url": "https://a0e8-173-46-98-200.ngrok-free.app/ar.html?stop=caterpillar",
+    "file": "/qr/point-05-caterpillar.png"
+  },
+  {
+    "id": "naruto",
+    "number": 6,
+    "title": "The Ninja Reveal",
+    "area": "Major area 6",
+    "url": "https://a0e8-173-46-98-200.ngrok-free.app/ar.html?stop=naruto",
+    "file": "/qr/point-06-naruto.png"
+  }
+]

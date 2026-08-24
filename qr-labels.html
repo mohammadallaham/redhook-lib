@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=IBM+Plex+Sans:wght@400;700&family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/src/styles.css" />
+    <title>Print AR Point Labels — Red Hook Library</title>
+  </head>
+  <body class="labels-page">
+    <header class="labels-header">
+      <div>
+        <span class="wordmark">Red Hook Library</span>
+        <h1>AR point labels</h1>
+        <p>Generate production URLs first, then print at 100% scale.</p>
+      </div>
+      <button type="button" id="print-labels">Print labels</button>
+    </header>
+    <main class="labels" id="labels" aria-live="polite">
+      <p>Loading QR labels…</p>
+    </main>
+    <script type="module" src="/src/labels.js"></script>
+  </body>
+</html>

@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="oklch(21% 0.035 54)" />
+    <meta name="8thwall:renderer" content="aframe:1.5.0" />
+    <meta name="8thwall:package" content="@8thwall.xrextras" />
+    <meta name="8thwall:package" content="@8thwall.landing-page" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=IBM+Plex+Sans:wght@400;700&family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/src/styles.css" />
+    <title>AR Point — Red Hook Library</title>
+    <script src="/external/scripts/8frame-1.5.0.min.js"></script>
+    <script src="/external/xrextras/xrextras.js"></script>
+    <script src="/external/landing-page/landing-page.js"></script>
+    <script>
+      window.__redhookQr = window.__redhookQr || {}
+      function installRedhookQrPipeline() {
+        var xr = window.XR8
+        if (!xr || window.__redhookQr.pipeline) return
+        window.__redhookQr.pipeline = true
+        try {
+          if (xr.CameraPixelArray && xr.CameraPixelArray.pipelineModule) {
+            xr.addCameraPipelineModule(
+              xr.CameraPixelArray.pipelineModule({ luminance: true, maxDimension: 480 }),
+            )
+          }
+        } catch (error) {}
+        xr.addCameraPipelineModule({
+          name: 'redhook-qr',
+          onProcessCpu: function (data) {
+            return window.__redhookQr.processCpu ? window.__redhookQr.processCpu(data) : {}
+          },
+          onUpdate: function (data) {
+            if (window.__redhookQr.onUpdate) window.__redhookQr.onUpdate(data)
+          },
+        })
+      }
+      if (window.XR8) installRedhookQrPipeline()
+      window.addEventListener('xrloaded', installRedhookQrPipeline)
+    </script>
+    <script
+      async
+      src="/external/xr/xr.js"
+      data-preload-chunks="slam"
+      data-load="xr"
+    ></script>
+  </head>
+  <body class="ar-page">
+    <main class="ar-shell">
+      <a-scene
+        class="ar-scene"
+        id="ar-scene"
+        embedded
+        xrweb="allowedDevices: any; disableWorldTracking: false; scale: absolute"
+        xrextras-loading
+        xrextras-runtime-error
+        renderer="colorManagement: true; antialias: false; alpha: true"
+        vr-mode-ui="enabled: false"
+        device-orientation-permission-ui="enabled: false"
+      >
+        <a-assets id="ar-assets" timeout="30000"></a-assets>
+        <a-camera id="ar-camera" position="0 1.6 0"></a-camera>
+        <a-entity id="effect-root" visible="false"></a-entity>
+        <a-entity
+          light="type: directional; intensity: 0.85; castShadow: false"
+          position="2 4 2"
+        ></a-entity>
+        <a-entity light="type: ambient; intensity: 0.75"></a-entity>
+      </a-scene>
+
+      <div class="ar-loader" id="ar-loader" role="status" aria-live="polite">
+        <div class="ar-loader__mark" aria-hidden="true"></div>
+        <strong>Starting camera…</strong>
+        <span>Keep this page open.</span>
+      </div>
+
+      <div class="ar-ui">
+        <div class="ar-topbar">
+          <div class="ar-stop">
+            <span class="ar-stop__count" id="ar-stop-count">Point —</span>
+            <h1 id="ar-stop-title">AR Discovery Point</h1>
+            <a class="ar-attribution" href="/external/xr/LICENSE">Powered by 8th Wall</a>
+          </div>
+          <a class="button button--light icon-button" href="/" aria-label="Close AR">Close</a>
+        </div>
+
+        <section class="ar-guide" id="ar-guide" aria-labelledby="guide-title" hidden>
+          <h2 id="guide-title">Find the target</h2>
+          <p id="guide-copy">Move your phone slowly until the effect appears.</p>
+          <button id="preview-button" type="button">Preview placement</button>
+        </section>
+
+        <p class="ar-status" id="ar-status" aria-live="polite">Preparing this point…</p>
+      </div>
+    </main>
+
+    <script type="module" src="/src/ar.js"></script>
+  </body>
+</html>

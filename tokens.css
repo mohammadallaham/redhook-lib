@@ -1,0 +1,63 @@
+/* Hallmark · tokens · theme: Hum · anchor hue: amber */
+:root {
+  --font-display: "Bricolage Grotesque", "Trebuchet MS", sans-serif;
+  --font-body: "IBM Plex Sans", "Segoe UI", sans-serif;
+  --font-outlier: "Space Mono", "Lucida Console", monospace;
+
+  --color-paper: oklch(97% 0.018 94);
+  --color-paper-2: oklch(92% 0.035 94);
+  --color-ink: oklch(21% 0.035 54);
+  --color-muted: oklch(38% 0.04 60);
+  --color-rule: oklch(76% 0.055 83);
+  --color-accent: oklch(61% 0.19 42);
+  --color-accent-ink: oklch(25% 0.06 42);
+  --color-focus: oklch(53% 0.18 245);
+  --color-sky: oklch(88% 0.11 208);
+  --color-leaf: oklch(67% 0.15 133);
+  --color-warning: oklch(72% 0.16 78);
+  --color-error: oklch(54% 0.18 28);
+  --color-success: oklch(55% 0.14 145);
+  --color-overlay: oklch(17% 0.025 54 / 0.78);
+  --color-shadow: oklch(25% 0.025 54 / 0.16);
+
+  --space-3xs: 0.125rem;
+  --space-2xs: 0.25rem;
+  --space-xs: 0.5rem;
+  --space-sm: 0.75rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2.5rem;
+  --space-2xl: 4rem;
+  --space-3xl: 6rem;
+  --space-4xl: 9rem;
+
+  --text-xs: 0.64rem;
+  --text-sm: 0.8rem;
+  --text-base: 1rem;
+  --text-md: 1.25rem;
+  --text-lg: 1.5625rem;
+  --text-xl: 1.9531rem;
+  --text-2xl: 2.4414rem;
+  --text-3xl: 3.0518rem;
+  --text-4xl: 3.8147rem;
+  --text-display: clamp(3.25rem, 9vw + 1rem, 8rem);
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in: cubic-bezier(0.7, 0, 0.84, 0);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-micro: 120ms;
+  --dur-short: 220ms;
+  --dur-long: 420ms;
+
+  --rule-hairline: 1px;
+  --rule-strong: 3px;
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+
+  --z-base: 1;
+  --z-raised: 10;
+  --z-sticky: 200;
+  --z-modal: 400;
+  --z-toast: 500;
+}

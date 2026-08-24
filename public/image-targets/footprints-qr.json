@@ -1,0 +1,23 @@
+{
+  "imagePath": "image-targets/footprints-qr_luminance.png",
+  "metadata": null,
+  "name": "footprints-qr",
+  "type": "PLANAR",
+  "properties": {
+    "top": 0,
+    "left": 0,
+    "width": 480,
+    "height": 640,
+    "isRotated": false,
+    "originalWidth": 480,
+    "originalHeight": 640
+  },
+  "resources": {
+    "originalImage": "footprints-qr_original.png",
+    "croppedImage": "footprints-qr_cropped.png",
+    "thumbnailImage": "footprints-qr_thumbnail.png",
+    "luminanceImage": "footprints-qr_luminance.png"
+  },
+  "created": 1787235301819,
+  "updated": 1787235301819
+}

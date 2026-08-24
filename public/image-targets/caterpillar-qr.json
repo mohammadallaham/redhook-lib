@@ -1,0 +1,23 @@
+{
+  "imagePath": "image-targets/caterpillar-qr_luminance.png",
+  "metadata": null,
+  "name": "caterpillar-qr",
+  "type": "PLANAR",
+  "properties": {
+    "top": 0,
+    "left": 0,
+    "width": 480,
+    "height": 640,
+    "isRotated": false,
+    "originalWidth": 480,
+    "originalHeight": 640
+  },
+  "resources": {
+    "originalImage": "caterpillar-qr_original.png",
+    "croppedImage": "caterpillar-qr_cropped.png",
+    "thumbnailImage": "caterpillar-qr_thumbnail.png",
+    "luminanceImage": "caterpillar-qr_luminance.png"
+  },
+  "created": 1787235306081,
+  "updated": 1787235306081
+}

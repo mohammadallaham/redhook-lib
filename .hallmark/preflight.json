@@ -1,0 +1,8 @@
+{
+  "date": "2026-08-11",
+  "framework": "Vite multi-page vanilla JavaScript",
+  "fontStack": "Bricolage Grotesque + IBM Plex Sans + Space Mono",
+  "palette": "OKLCH design tokens",
+  "motion": "CSS motion with reduced-motion support",
+  "spacing": "4pt semantic scale"
+}

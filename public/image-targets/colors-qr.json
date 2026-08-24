@@ -1,0 +1,23 @@
+{
+  "imagePath": "image-targets/colors-qr_luminance.png",
+  "metadata": null,
+  "name": "colors-qr",
+  "type": "PLANAR",
+  "properties": {
+    "top": 0,
+    "left": 0,
+    "width": 480,
+    "height": 640,
+    "isRotated": false,
+    "originalWidth": 480,
+    "originalHeight": 640
+  },
+  "resources": {
+    "originalImage": "colors-qr_original.png",
+    "croppedImage": "colors-qr_cropped.png",
+    "thumbnailImage": "colors-qr_thumbnail.png",
+    "luminanceImage": "colors-qr_luminance.png"
+  },
+  "created": 1787235304572,
+  "updated": 1787235304572
+}

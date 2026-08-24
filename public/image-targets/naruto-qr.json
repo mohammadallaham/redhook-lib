@@ -1,0 +1,23 @@
+{
+  "imagePath": "image-targets/naruto-qr_luminance.png",
+  "metadata": null,
+  "name": "naruto-qr",
+  "type": "PLANAR",
+  "properties": {
+    "top": 0,
+    "left": 0,
+    "width": 480,
+    "height": 640,
+    "isRotated": false,
+    "originalWidth": 480,
+    "originalHeight": 640
+  },
+  "resources": {
+    "originalImage": "naruto-qr_original.png",
+    "croppedImage": "naruto-qr_cropped.png",
+    "thumbnailImage": "naruto-qr_thumbnail.png",
+    "luminanceImage": "naruto-qr_luminance.png"
+  },
+  "created": 1787235307458,
+  "updated": 1787235307458
+}

@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta
+      name="description"
+      content="Discover six browser-based augmented reality moments throughout Red Hook Library."
+    />
+    <meta name="theme-color" content="oklch(97% 0.018 94)" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=IBM+Plex+Sans:wght@400;700&family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/src/styles.css" />
+    <title>AR Discovery Points — Red Hook Library</title>
+  </head>
+  <body>
+    <nav class="site-nav" aria-label="Primary navigation">
+      <a class="wordmark" href="/">Red Hook Library</a>
+      <a class="site-nav__action nav__link" href="#points">Open a point</a>
+    </nav>
+
+    <main>
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero__copy reveal">
+          <span class="hero__brand">Red Hook Library</span>
+          <h1 id="hero-title">AR Discovery Points</h1>
+        </div>
+        <p class="hero__note reveal">
+          Six small surprises, placed throughout the library. No app download.
+        </p>
+      </section>
+
+      <section class="intro" aria-labelledby="intro-title">
+        <h2 id="intro-title">Point your phone. Watch the library move.</h2>
+        <p>
+          Find a numbered sign, scan its QR code, and allow camera access. Each link opens only
+          the effect for that part of the building, keeping the experience quick on library Wi‑Fi.
+        </p>
+      </section>
+
+      <section class="points" id="points" aria-labelledby="points-title">
+        <h2 class="points__heading" id="points-title">Choose a discovery point</h2>
+        <ol class="point-list" id="point-list"></ol>
+      </section>
+
+      <section class="visit" aria-labelledby="visit-title">
+        <div class="visit__inner">
+          <div>
+            <h2 id="visit-title">Start with the footprints.</h2>
+            <p>Use a recent iPhone or Android phone. Headphones are optional.</p>
+          </div>
+          <a class="button" href="/ar.html?stop=footprints">Open point 01</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer" aria-label="Site footer">
+      <div class="footer__track" aria-hidden="true">
+        <span>RED HOOK LIBRARY · SIX AR DISCOVERY POINTS ·</span>
+        <span>RED HOOK LIBRARY · SIX AR DISCOVERY POINTS ·</span>
+        <span>RED HOOK LIBRARY · SIX AR DISCOVERY POINTS ·</span>
+        <span>RED HOOK LIBRARY · SIX AR DISCOVERY POINTS ·</span>
+      </div>
+      <p class="footer__credit">
+        AR tracking powered by
+        <a class="footer__link" href="/external/xr/LICENSE">8th Wall</a>.
+      </p>
+    </footer>
+
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
