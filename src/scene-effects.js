@@ -317,7 +317,7 @@ function buildBus(root) {
   const flight = entity('a-entity', {
     position: '0 0 0',
     'data-start-on-place': '',
-    'fly-fade-pass': 'fromX: 0; toX: 2.2; lift: 0.18; dur: 7000; fadeDur: 550',
+      'fly-fade-pass': 'fromX: 2.2; toX: 0; lift: 0.18; dur: 7000; fadeDur: 550',
   })
   const bus = entity('a-entity')
   append(
@@ -492,7 +492,7 @@ function buildModel(root, stop) {
     const flight = entity('a-entity', {
       position: '0 0 0',
       'data-start-on-place': '',
-      'fly-fade-pass': 'fromX: 0; toX: 2.4; lift: 0.18; dur: 7000; fadeDur: 550',
+      'fly-fade-pass': 'fromX: 2.4; toX: 0; lift: 0.18; dur: 7000; fadeDur: 550',
     })
     flight.append(model)
     root.append(flight)

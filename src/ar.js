@@ -174,6 +174,8 @@ async function start() {
     const modelReady = stop.modelSrc ? preloadModel() : Promise.resolve()
 
     await waitForScene()
+    scene.setAttribute('vr-mode-ui', 'enabled: false')
+    document.querySelectorAll('.a-enter-vr, .a-enter-ar').forEach((button) => button.remove())
 
     if (stop.modelSrc) {
       try {

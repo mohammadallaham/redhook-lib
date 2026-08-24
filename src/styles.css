@@ -402,6 +402,12 @@ button:disabled,
   display: none;
 }
 
+.a-enter-vr,
+.a-enter-ar,
+.a-orientation-modal {
+  display: none !important;
+}
+
 /* Print labels */
 .labels-page {
   padding: var(--space-lg);
