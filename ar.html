@@ -58,7 +58,6 @@
         id="ar-scene"
         embedded
         xrweb="allowedDevices: any; disableWorldTracking: false; scale: absolute"
-        xrextras-loading
         xrextras-runtime-error
         renderer="colorManagement: true; antialias: false; alpha: true"
         vr-mode-ui="enabled: false"
@@ -74,30 +73,6 @@
         <a-entity light="type: ambient; intensity: 0.75"></a-entity>
       </a-scene>
 
-      <div class="ar-loader" id="ar-loader" role="status" aria-live="polite">
-        <div class="ar-loader__mark" aria-hidden="true"></div>
-        <strong>Starting camera…</strong>
-        <span>Keep this page open.</span>
-      </div>
-
-      <div class="ar-ui">
-        <div class="ar-topbar">
-          <div class="ar-stop">
-            <span class="ar-stop__count" id="ar-stop-count">Point —</span>
-            <h1 id="ar-stop-title">AR Discovery Point</h1>
-            <a class="ar-attribution" href="/external/xr/LICENSE">Powered by 8th Wall</a>
-          </div>
-          <a class="button button--light icon-button" href="/" aria-label="Close AR">Close</a>
-        </div>
-
-        <section class="ar-guide" id="ar-guide" aria-labelledby="guide-title" hidden>
-          <h2 id="guide-title">Find the target</h2>
-          <p id="guide-copy">Move your phone slowly until the effect appears.</p>
-          <button id="preview-button" type="button">Preview placement</button>
-        </section>
-
-        <p class="ar-status" id="ar-status" aria-live="polite">Preparing this point…</p>
-      </div>
     </main>
 
     <script type="module" src="/src/ar.js"></script>

@@ -23,15 +23,6 @@ export function qrMatchesStop(text, stop) {
   return new RegExp(`[?&]stop=${stop.id}(?:&|#|$)`, 'i').test(value)
 }
 
-function stopIdFromQr(text) {
-  try {
-    return new URL(text, window.location.origin).searchParams.get('stop')?.toLowerCase() ?? null
-  } catch {
-    const match = String(text).match(/[?&]stop=([a-z0-9-]+)/i)
-    return match?.[1]?.toLowerCase() ?? null
-  }
-}
-
 function ensureRgba(pixels, cols, rows, rowBytes, out) {
   const stride = rowBytes || cols
   const rgba = out && out.length === cols * rows * 4 ? out : new Uint8ClampedArray(cols * rows * 4)
@@ -167,7 +158,7 @@ export function installQrPipeline(xr, { force = false } = {}) {
   }
 }
 
-export function bootQrTracker({ stop, scene, onStatus, onWrongCode }) {
+export function bootQrTracker({ stop, scene }) {
   const state = qrState()
   const cameraEl = document.querySelector('#ar-camera')
   let hits = 0
@@ -175,10 +166,8 @@ export function bootQrTracker({ stop, scene, onStatus, onWrongCode }) {
   let enabled = false
   let frame = 0
   let pending = null
-  let lastWrongAt = 0
   let rgbaBuffer = null
   let gotPixels = false
-  let announcedScan = false
   const qrSize = stop.qrSizeMeters ?? 0.12
 
   const emitPose = (payload) => {
@@ -236,32 +225,17 @@ export function bootQrTracker({ stop, scene, onStatus, onWrongCode }) {
   }
 
   const onUpdate = (event) => {
-    if (gotPixels && !announcedScan && !locked) {
-      announcedScan = true
-      onStatus?.('Scanning for the printed QR…')
-    }
-
     const cpu = event.processCpuResult || event.processCpu
     const result = cpu?.[PIPELINE_NAME]
     const camera = cameraEl?.getObject3D('camera')
     if (!result?.found || !camera) return
 
-    if (!qrMatchesStop(result.text, stop)) {
-      const now = Date.now()
-      if (now - lastWrongAt > 1500) {
-        lastWrongAt = now
-        onWrongCode?.(stopIdFromQr(result.text))
-      }
-      return
-    }
+    if (!qrMatchesStop(result.text, stop)) return
 
     const pose = poseFromQr(result.location, result.cols, result.rows, camera, qrSize) ?? fallbackPose(camera)
 
     hits += 1
-    if (hits < 2) {
-      onStatus?.('Hold steady… locking onto the QR.')
-      return
-    }
+    if (hits < 2) return
 
     const payload = {
       name: stop.targetName,
@@ -291,11 +265,6 @@ export function bootQrTracker({ stop, scene, onStatus, onWrongCode }) {
     },
     { once: true },
   )
-  window.setTimeout(() => {
-    if (!locked && !gotPixels) {
-      onStatus?.('Still waiting for the camera scanner. Keep the whole QR in view, or use Preview placement.')
-    }
-  }, 8000)
 
   return {
     enable() {

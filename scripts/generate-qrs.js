@@ -6,7 +6,7 @@ import { STOP_LIST } from '../src/stops-config.js'
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const outputDir = path.join(root, 'public', 'qr')
-const baseUrl = process.env.BASE_URL ?? 'https://localhost:5173'
+const baseUrl = process.env.BASE_URL ?? 'https://redhook-lib.netlify.app'
 
 await mkdir(outputDir, { recursive: true })
 
