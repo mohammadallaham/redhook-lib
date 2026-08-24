@@ -34,20 +34,83 @@ async function waitForXR() {
   return window.XR8
 }
 
+function waitForReality() {
+  return new Promise((resolve) => {
+    let settled = false
+    const finish = () => {
+      if (settled) return
+      settled = true
+      resolve()
+    }
+    scene.addEventListener('realityready', finish, { once: true })
+    window.addEventListener('realityready', finish, { once: true })
+    window.setTimeout(finish, 5000)
+  })
+}
+
 function startPlacedEffects() {
   root.querySelectorAll('[data-start-on-place]').forEach((element) => {
     element.emit('effect-start')
   })
 }
 
-function placeInWorld() {
-  root.removeAttribute('image-target-anchor')
-  root.removeAttribute('shelf-ground-anchor')
-  root.setAttribute('position', `0 ${stop.placementHeight} -${stop.placementDistance}`)
-  root.setAttribute('rotation', '0 0 0')
-  root.setAttribute('scale', '1 1 1')
+function isFloorStop() {
+  return stop.surface === 'floor' || stop.placementMode === 'shelf-to-ground'
+}
+
+function placeInFrontOfCamera() {
+  const THREE = window.AFRAME.THREE
+  const camera = document.querySelector('#ar-camera')?.getObject3D('camera')
+  const floor = isFloorStop()
+  const distance = Math.max(Number(stop.placementDistance) || 0, floor ? 1.4 : 1.2)
+
+  if (camera) {
+    const offset = new THREE.Vector3(0, floor ? 0 : 0, -distance)
+    camera.localToWorld(offset)
+    if (floor) offset.y = stop.floorLift ?? 0.03
+    root.object3D.position.copy(offset)
+    const yaw = new THREE.Euler().setFromQuaternion(
+      camera.getWorldQuaternion(new THREE.Quaternion()),
+      'YXZ',
+    )
+    root.object3D.rotation.set(0, yaw.y, 0)
+    root.object3D.scale.set(1, 1, 1)
+  } else {
+    root.setAttribute('position', `0 ${floor ? 0.03 : 0} -${distance}`)
+  }
+
   root.object3D.visible = true
   startPlacedEffects()
+}
+
+function snapToPrintedQr({ detail }) {
+  const name = detail?.name || detail?.image?.name
+  if (name !== stop.targetName || !detail?.position) return
+
+  if (stop.placementMode === 'shelf-to-ground') {
+    const three = window.AFRAME.THREE
+    const rotation = new three.Quaternion(
+      detail.rotation.x,
+      detail.rotation.y,
+      detail.rotation.z,
+      detail.rotation.w,
+    )
+    const forward = new three.Vector3(0, 0, 1).applyQuaternion(rotation)
+    forward.y = 0
+    if (forward.lengthSq() < 0.0001) forward.set(0, 0, 1)
+    else forward.normalize()
+    root.object3D.position.set(
+      detail.position.x + forward.x * (stop.trailForward ?? 0.4),
+      detail.position.y - (stop.groundOffsetY ?? 0.9) + (stop.floorLift ?? 0.02),
+      detail.position.z + forward.z * (stop.trailForward ?? 0.4),
+    )
+    root.object3D.quaternion.setFromUnitVectors(new three.Vector3(0, 0, -1), forward)
+    return
+  }
+
+  root.object3D.position.copy(detail.position)
+  root.object3D.quaternion.copy(detail.rotation)
+  root.object3D.scale.setScalar(detail.scale || 1)
 }
 
 function preloadModel() {
@@ -91,37 +154,6 @@ function preloadModel() {
   })
 }
 
-let qrTracker = null
-
-function startQrTracking() {
-  if (stop?.tracking !== 'image') return
-  qrTracker = bootQrTracker({ stop, scene })
-}
-
-function startImagePoint() {
-  root.setAttribute('image-target-anchor', {
-    name: stop.targetName,
-    lockOnce: true,
-  })
-  root.addEventListener('target-visible', startPlacedEffects, { once: true })
-  qrTracker?.enable()
-}
-
-function startShelfGroundPoint() {
-  root.setAttribute('shelf-ground-anchor', {
-    name: stop.targetName,
-    groundOffsetY: stop.groundOffsetY,
-    floorLift: stop.floorLift,
-    trailForward: stop.trailForward,
-  })
-  root.addEventListener('ground-placed', startPlacedEffects, { once: true })
-  qrTracker?.enable()
-}
-
-function startWorldPoint() {
-  window.setTimeout(placeInWorld, 1300)
-}
-
 async function start() {
   if (!stop) {
     console.error('This QR code does not match a discovery point.')
@@ -129,7 +161,6 @@ async function start() {
   }
 
   document.title = `${stop.title} — Red Hook Library`
-  startQrTracking()
 
   try {
     if (!window.AFRAME) {
@@ -138,6 +169,7 @@ async function start() {
 
     registerSceneComponents()
 
+    const qrTracker = stop.tracking === 'image' ? bootQrTracker({ stop, scene }) : null
     const xrReady = waitForXR()
     const modelReady = stop.modelSrc ? preloadModel() : Promise.resolve()
 
@@ -154,13 +186,14 @@ async function start() {
 
     renderEffect(root, stop)
     await xrReady
+    await waitForReality()
 
-    if (stop.placementMode === 'shelf-to-ground') {
-      startShelfGroundPoint()
-    } else if (stop.tracking === 'image') {
-      startImagePoint()
-    } else {
-      startWorldPoint()
+    placeInFrontOfCamera()
+    qrTracker?.enable()
+
+    if (qrTracker) {
+      scene.addEventListener('xrimagefound', snapToPrintedQr)
+      window.addEventListener('xrimagefound', snapToPrintedQr)
     }
   } catch (error) {
     console.error(error)
