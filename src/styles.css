@@ -404,7 +404,11 @@ button:disabled,
 
 .a-enter-vr,
 .a-enter-ar,
-.a-orientation-modal {
+.a-orientation-modal,
+#netlify-badge,
+.netlify-badge,
+[class*="netlify-badge"],
+iframe[title*="Netlify"] {
   display: none !important;
 }
 

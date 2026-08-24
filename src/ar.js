@@ -190,12 +190,27 @@ async function start() {
     await xrReady
     await waitForReality()
 
-    placeInFrontOfCamera()
     qrTracker?.enable()
 
-    if (qrTracker) {
-      scene.addEventListener('xrimagefound', snapToPrintedQr)
-      window.addEventListener('xrimagefound', snapToPrintedQr)
+    if (stop.id === 'bus') {
+      const onBusQr = (event) => {
+        const name = event.detail?.name || event.detail?.image?.name
+        if (name !== stop.targetName) return
+        snapToPrintedQr(event)
+        if (root.object3D.visible) return
+        root.object3D.visible = true
+        startPlacedEffects()
+      }
+      scene.addEventListener('xrimagefound', onBusQr)
+      scene.addEventListener('xrimageupdated', onBusQr)
+      window.addEventListener('xrimagefound', onBusQr)
+      window.addEventListener('xrimageupdated', onBusQr)
+    } else {
+      placeInFrontOfCamera()
+      if (qrTracker) {
+        scene.addEventListener('xrimagefound', snapToPrintedQr)
+        window.addEventListener('xrimagefound', snapToPrintedQr)
+      }
     }
   } catch (error) {
     console.error(error)

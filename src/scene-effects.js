@@ -306,9 +306,9 @@ function createIvyVines(layout, count) {
 function buildFootprints(root) {
   root.append(
     entity('a-entity', {
-      rotation: '0 -14 0',
+      rotation: '0 14 0',
       'data-start-on-place': '',
-      'reveal-footprints': 'count: 5; fadeDur: 1500',
+      'reveal-footprints-out': 'count: 5; fadeDur: 1500',
     }),
   )
 }
@@ -317,7 +317,7 @@ function buildBus(root) {
   const flight = entity('a-entity', {
     position: '0 0 0',
     'data-start-on-place': '',
-      'fly-fade-pass': 'fromX: 2.2; toX: 0; lift: 0.18; dur: 7000; fadeDur: 550',
+      'fly-fade-pass': 'fromX: 0; toX: -2.2; lift: 0.18; dur: 7000; fadeDur: 550',
   })
   const bus = entity('a-entity')
   append(
@@ -492,7 +492,7 @@ function buildModel(root, stop) {
     const flight = entity('a-entity', {
       position: '0 0 0',
       'data-start-on-place': '',
-      'fly-fade-pass': 'fromX: 2.4; toX: 0; lift: 0.18; dur: 7000; fadeDur: 550',
+      'fly-fade-pass': 'fromX: 0; toX: -2.4; lift: 0.18; dur: 7000; fadeDur: 550',
     })
     flight.append(model)
     root.append(flight)
@@ -639,8 +639,8 @@ export function registerSceneComponents() {
     })
   }
 
-  if (!window.AFRAME.components['reveal-footprints']) {
-    window.AFRAME.registerComponent('reveal-footprints', {
+  if (!window.AFRAME.components['reveal-footprints-out']) {
+    window.AFRAME.registerComponent('reveal-footprints-out', {
       schema: {
         count: { type: 'int', default: 5 },
         fadeDur: { type: 'number', default: 1500 },
@@ -672,7 +672,8 @@ export function registerSceneComponents() {
           const geometry = new three.PlaneGeometry(0.55, 0.7)
           const mesh = new three.Mesh(geometry, material)
           mesh.rotation.x = -Math.PI / 2
-          mesh.position.set(0, 0.025, index * -0.75)
+          mesh.rotation.z = Math.PI
+          mesh.position.set(0, 0.025, index * 0.75)
           mesh.scale.set(0.2, 0.2, 0.2)
           mesh.visible = false
           this.el.object3D.add(mesh)
