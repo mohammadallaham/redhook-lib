@@ -1,0 +1,36 @@
+{
+  "name": "red-hook-library",
+  "version": "1.0.0",
+  "description": "Six browser-based AR discovery points for Red Hook Library.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "predev": "npm run setup:xr",
+    "dev": "vite --host 0.0.0.0",
+    "prebuild": "npm run setup:xr",
+    "build": "vite build",
+    "preview": "vite preview --host 0.0.0.0",
+    "setup:xr": "node scripts/setup-xr.js",
+    "targets": "npx @8thwall/image-target-cli@latest",
+    "qr": "node scripts/generate-qrs.js",
+    "qr:targets": "node scripts/generate-qr-targets.js",
+    "check": "node scripts/check-config.js"
+  },
+  "keywords": [
+    "webar",
+    "8th-wall",
+    "aframe",
+    "library"
+  ],
+  "devDependencies": {
+    "@vitejs/plugin-basic-ssl": "^2.3.0",
+    "qrcode": "^1.5.4",
+    "vite": "^8.2.1"
+  },
+  "dependencies": {
+    "@8thwall/engine-binary": "^1.0.0",
+    "@8thwall/landing-page": "^1.0.0",
+    "@8thwall/xrextras": "^1.0.0",
+    "jsqr": "^1.4.0"
+  }
+}
