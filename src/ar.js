@@ -62,7 +62,10 @@ function placeInFrontOfCamera() {
   const THREE = window.AFRAME.THREE
   const camera = document.querySelector('#ar-camera')?.getObject3D('camera')
   const floor = isFloorStop()
-  const distance = Math.max(Number(stop.placementDistance) || 0, floor ? 1.4 : 1.2)
+  const distance = Math.max(
+    Number(stop.placementDistance) || 0,
+    stop.id === 'bus' ? 1.5 : floor ? 1.4 : 1.2,
+  )
 
   if (camera) {
     const offset = new THREE.Vector3(0, floor ? 0 : 0, -distance)
@@ -105,6 +108,24 @@ function snapToPrintedQr({ detail }) {
       detail.position.z + forward.z * (stop.trailForward ?? 0.4),
     )
     root.object3D.quaternion.setFromUnitVectors(new three.Vector3(0, 0, -1), forward)
+    return
+  }
+
+  // Keep the bus upright — full QR rotation often shows the undercarriage.
+  if (stop.id === 'bus') {
+    const three = window.AFRAME.THREE
+    root.object3D.position.copy(detail.position)
+    const yaw = new three.Euler().setFromQuaternion(
+      new three.Quaternion(
+        detail.rotation.x,
+        detail.rotation.y,
+        detail.rotation.z,
+        detail.rotation.w,
+      ),
+      'YXZ',
+    )
+    root.object3D.rotation.set(0, yaw.y, 0)
+    root.object3D.scale.set(1, 1, 1)
     return
   }
 
@@ -190,27 +211,14 @@ async function start() {
     await xrReady
     await waitForReality()
 
+    placeInFrontOfCamera()
     qrTracker?.enable()
 
-    if (stop.id === 'bus') {
-      const onBusQr = (event) => {
-        const name = event.detail?.name || event.detail?.image?.name
-        if (name !== stop.targetName) return
-        snapToPrintedQr(event)
-        if (root.object3D.visible) return
-        root.object3D.visible = true
-        startPlacedEffects()
-      }
-      scene.addEventListener('xrimagefound', onBusQr)
-      scene.addEventListener('xrimageupdated', onBusQr)
-      window.addEventListener('xrimagefound', onBusQr)
-      window.addEventListener('xrimageupdated', onBusQr)
-    } else {
-      placeInFrontOfCamera()
-      if (qrTracker) {
-        scene.addEventListener('xrimagefound', snapToPrintedQr)
-        window.addEventListener('xrimagefound', snapToPrintedQr)
-      }
+    if (qrTracker) {
+      scene.addEventListener('xrimagefound', snapToPrintedQr)
+      scene.addEventListener('xrimageupdated', snapToPrintedQr)
+      window.addEventListener('xrimagefound', snapToPrintedQr)
+      window.addEventListener('xrimageupdated', snapToPrintedQr)
     }
   } catch (error) {
     console.error(error)
