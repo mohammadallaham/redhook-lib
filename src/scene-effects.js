@@ -1146,7 +1146,7 @@ export function registerSceneComponents() {
           const requested = this.data.clip
           const selected =
             requested === '*'
-              ? (clips.find((clip) => /crawl/i.test(clip.name)) ?? clips[0])
+              ? clips[0]
               : (clips.find((clip) => clip.name === requested) ??
                 clips.find((clip) => clip.name.includes(requested)) ??
                 clips[0])
